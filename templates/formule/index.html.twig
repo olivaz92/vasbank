@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Formule index{% endblock %}
+
+{% block body %}
+    <h1>Formule index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prix_adhesion</th>
+                <th>Image</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for formule in formules %}
+            <tr>
+                <td>{{ formule.id }}</td>
+                <td>{{ formule.nom }}</td>
+                <td>{{ formule.prixAdhesion }}</td>
+                <td>{{ formule.image }}</td>
+                <td>
+                    <a href="{{ path('formule_show', {'id': formule.id}) }}">show</a>
+                    <a href="{{ path('formule_edit', {'id': formule.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <p>Je suis {{ app.user.nom }}</p>
+    <p>Mes formules</p>
+    {% for user in users %}
+        {% if user.email == app.user.email %}
+            {% for item in user.getFormules() %}
+                <td class="tab-item">{{ item.nom }}</td>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+    <p></p>
+
+    <a href="{{ path('formule_new') }}">Create new</a>
+{% endblock %}
